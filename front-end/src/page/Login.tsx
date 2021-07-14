@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Box,
   Flex,
@@ -14,9 +14,13 @@ import {
   useBreakpointValue,
   IconProps,
   Icon,
+  Select,
+  useDisclosure,
 } from "@chakra-ui/react";
 
 import { history } from "App";
+import { AuthContext } from "contexts/auth/auth.context";
+import ModalComponent from "components/Modal";
 
 const avatars = [
   {
@@ -41,7 +45,33 @@ const avatars = [
   },
 ];
 
+interface loginContextInterface {
+  authReducer: object;
+  setAuthReducer: (state: any) => void;
+  login: (username: string, password: string) => void;
+}
+
 export default function JoinOurTeam() {
+  if (JSON.parse(localStorage.getItem("auth"))) {
+    history.push("/");
+  }
+
+  const loginContext: loginContextInterface = React.useContext(AuthContext);
+  const { authReducer, setAuthReducer, login, register } = loginContext;
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const [usernameSignUp, setUsernameSignUp] = useState("");
+  const [passwordSignUp, setPasswordSignUp] = useState("");
+  const [fullname, setFullname] = useState("");
+  const handleSignUp = (
+    usernameSignUp: string,
+    passwordSignUp: string,
+    fullname: string
+  ) => {
+    register(usernameSignUp, passwordSignUp, fullname);
+  };
   return (
     <Box position={"relative"}>
       <Container
@@ -145,6 +175,8 @@ export default function JoinOurTeam() {
           <Box as={"form"} mt={10}>
             <Stack spacing={4}>
               <Input
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
                 placeholder="Username"
                 bg={"gray.100"}
                 border={0}
@@ -154,6 +186,12 @@ export default function JoinOurTeam() {
                 }}
               />
               <Input
+                value={password}
+                type="password"
+                onChange={(e) => setPassword(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") login(username, password);
+                }}
                 placeholder="Password"
                 bg={"gray.100"}
                 border={0}
@@ -172,11 +210,16 @@ export default function JoinOurTeam() {
                   bgGradient: "linear(to-r, red.400,pink.400)",
                   boxShadow: "xl",
                 }}
-                onClick={() => history.push("/")}
+                onClick={() => login(username, password)}
               >
                 Sign in
               </Button>
-              <Button fontFamily={"heading"} bg={"gray.200"} color={"gray.800"}>
+              <Button
+                fontFamily={"heading"}
+                bg={"gray.200"}
+                color={"gray.800"}
+                onClick={onOpen}
+              >
                 Sign up
               </Button>
             </Stack>
@@ -190,6 +233,42 @@ export default function JoinOurTeam() {
         left={-10}
         style={{ filter: "blur(70px)" }}
       />
+      <ModalComponent
+        isOpen={isOpen}
+        onClose={onClose}
+        modalTitle="Sign up 😈"
+        titleButton="Sign up"
+        handleOnSubmit={() =>
+          handleSignUp(usernameSignUp, passwordSignUp, fullname)
+        }
+      >
+        <Flex
+          //   minH={"100vh"}
+          align={"center"}
+          justify={"center"}
+        >
+          <Stack spacing={4}>
+            <Input
+              type="text"
+              placeholder="Username"
+              value={usernameSignUp}
+              onChange={(e) => setUsernameSignUp(e.target.value)}
+            />
+            <Input
+              type="password"
+              placeholder="Password"
+              value={passwordSignUp}
+              onChange={(e) => setPasswordSignUp(e.target.value)}
+            />
+            <Input
+              type="text"
+              placeholder="Fullname"
+              value={fullname}
+              onChange={(e) => setFullname(e.target.value)}
+            />
+          </Stack>
+        </Flex>
+      </ModalComponent>
     </Box>
   );
 }

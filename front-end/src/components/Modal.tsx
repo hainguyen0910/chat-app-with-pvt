@@ -15,10 +15,13 @@ export interface ModalProps {
   onClose: () => void;
   children: JSX.Element;
   modalTitle: string;
+  titleButton: string;
+  handleOnSubmit: () => void;
 }
 
 export default function ModalComponent(props: ModalProps) {
-  const { isOpen, onClose, modalTitle, children } = props;
+  const { isOpen, onClose, modalTitle, children, titleButton, handleOnSubmit } =
+    props;
   return (
     <Modal
       isCentered={true}
@@ -35,7 +38,9 @@ export default function ModalComponent(props: ModalProps) {
           <Button variant="ghost" onClick={onClose} mr={3}>
             Close
           </Button>
-          <Button colorScheme="blue">Update</Button>
+          <Button colorScheme="blue" onClick={handleOnSubmit}>
+            {titleButton}
+          </Button>
         </ModalFooter>
       </ModalContent>
     </Modal>

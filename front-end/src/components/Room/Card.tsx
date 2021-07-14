@@ -97,6 +97,8 @@ export default function CardComponent(props: CardProps) {
         isOpen={isOpen}
         onClose={onClose}
         modalTitle="Edit profile 😈"
+        titleButton="Update"
+        handleOnSubmit={() => console.log(1)}
       >
         <Flex
           //   minH={"100vh"}
