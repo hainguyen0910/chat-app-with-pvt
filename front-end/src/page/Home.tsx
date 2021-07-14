@@ -11,7 +11,7 @@ import {
   Tabs,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { AppProvider } from "App";
+import { AppContext } from "contexts/app/app.context";
 import CardComponent from "components/Room/Card";
 import TabComponent from "components/Room/Tab";
 import React, { useContext, useState } from "react";
@@ -25,7 +25,7 @@ interface loadingInterface {
 }
 
 export default function Home() {
-  const loading: loadingInterface = useContext(AppProvider);
+  const loading: loadingInterface = useContext(AppContext);
   const { isLoading, setIsLoading } = loading;
 
   const [titleForm, setTitleForm] = useState("Join room");
