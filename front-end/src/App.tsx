@@ -8,6 +8,7 @@ import { createBrowserHistory } from "history";
 import AppProvider from "contexts/app/app.provider";
 import "App.css";
 import AuthProvider from "contexts/auth/auth.provider";
+import RoomProvider from "contexts/room/room.provider";
 
 export const history = createBrowserHistory();
 
@@ -20,16 +21,18 @@ export const App = () => {
         <AppProvider value={{ isLoading, setIsLoading }}>
           <LoadingOverlay active={isLoading} spinner text="Wait a minute...">
             <AuthProvider>
-              <Switch>
-                {ROUTERS.map((item, index) => (
-                  <Route
-                    path={item.path}
-                    exact={item.exact}
-                    component={item.component}
-                    key={index}
-                  />
-                ))}
-              </Switch>
+              <RoomProvider>
+                <Switch>
+                  {ROUTERS.map((item, index) => (
+                    <Route
+                      path={item.path}
+                      exact={item.exact}
+                      component={item.component}
+                      key={index}
+                    />
+                  ))}
+                </Switch>
+              </RoomProvider>
             </AuthProvider>
           </LoadingOverlay>
         </AppProvider>

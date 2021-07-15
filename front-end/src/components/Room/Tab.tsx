@@ -15,6 +15,7 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import { history } from "App";
+import { RoomContext } from "contexts/room/room.context";
 import * as React from "react";
 export interface TabProps {
   titleForm: string;
@@ -30,6 +31,14 @@ export interface TabProps {
   };
 }
 
+interface RoomContextInterface {
+  roomReducer: object;
+  setRoomReducer: (state: any) => void;
+  joinRoom: (roomID: string) => void;
+  createRoom: (roomName: string) => void;
+  getAllRoom: () => void;
+}
+
 export default function TabComponent(props: TabProps) {
   const {
     subTitle,
@@ -41,6 +50,14 @@ export default function TabComponent(props: TabProps) {
     isLoading,
     setIsLoading,
   } = props;
+
+  const roomContext: RoomContextInterface = React.useContext(RoomContext);
+
+  const { roomReducer, setRoomReducer, joinRoom, createRoom, getAllRoom } =
+    roomContext;
+
+  const [roomID, setRoomID] = React.useState("");
+  const [roomName, setRoomName] = React.useState("");
 
   const handleOnClickForm = (type: string): void => {
     if (type === "join") {
@@ -54,8 +71,8 @@ export default function TabComponent(props: TabProps) {
     }
   };
 
-  const handleOnSubmitJoinRoom = (id: string) => {
-    history.push(`/room/${id}`);
+  const handleOnSubmitJoinRoom = (roomId: string) => {
+    joinRoom(roomId);
   };
 
   return (
@@ -90,6 +107,8 @@ export default function TabComponent(props: TabProps) {
           <TabPanel>
             <FormControl id="room_code">
               <Input
+                value={roomID}
+                onChange={(e) => setRoomID(e.target.value)}
                 placeholder="Room code"
                 bg={"gray.100"}
                 border={0}
@@ -106,11 +125,7 @@ export default function TabComponent(props: TabProps) {
                   _hover={{
                     bg: "blue.500",
                   }}
-                  // onClick={() => {
-                  //   if (isLoading) setIsLoading.off();
-                  //   else setIsLoading.on();
-                  // }}
-                  onClick={() => handleOnSubmitJoinRoom("123")}
+                  onClick={() => joinRoom(roomID)}
                 >
                   {nameButton}
                 </Button>
@@ -120,6 +135,8 @@ export default function TabComponent(props: TabProps) {
           <TabPanel>
             <FormControl id="room_name">
               <Input
+                value={roomName}
+                onChange={(e) => setRoomName(e.target.value)}
                 placeholder="Room name"
                 bg={"gray.100"}
                 border={0}
@@ -136,10 +153,7 @@ export default function TabComponent(props: TabProps) {
                   _hover={{
                     bg: "blue.500",
                   }}
-                  onClick={() => {
-                    if (isLoading) setIsLoading.off();
-                    else setIsLoading.on();
-                  }}
+                  onClick={() => createRoom(roomName)}
                 >
                   {nameButton}
                 </Button>

@@ -11,12 +11,15 @@ import {
 } from "@chakra-ui/react";
 import * as React from "react";
 import { FaCheckCircle } from "react-icons/fa";
+import moment from "moment";
+
 export interface IBoxInfoProps {
   titleBox: string;
 }
 
 export default function BoxInfo(props: IBoxInfoProps) {
   const { titleBox } = props;
+  const roomReducer = JSON.parse(localStorage.getItem("currentRoom"));
   return (
     <Box
       borderBottomRadius={"xl"}
@@ -34,7 +37,7 @@ export default function BoxInfo(props: IBoxInfoProps) {
             ID
           </Text>
           <Text fontSize="5xl" fontWeight="900">
-            79123
+            {roomReducer.roomId}
           </Text>
         </HStack>
       </Box>
@@ -46,11 +49,11 @@ export default function BoxInfo(props: IBoxInfoProps) {
           </ListItem>
           <ListItem>
             <ListIcon as={FaCheckCircle} color="green.500" />
-            Host: Tao ne`
+            Host: {roomReducer.members[0]}
           </ListItem>
           <ListItem>
             <ListIcon as={FaCheckCircle} color="green.500" />
-            Create at: 10:00 25/07/2021
+            Create at: {moment(roomReducer.createdAt).format("MMM Do YY")}
           </ListItem>
         </List>
       </VStack>
