@@ -10,6 +10,7 @@ const logger = require('morgan');
 const cors = require('cors');
 const socketio = require('socket.io');
 const User = require('./models/User');
+const Message = require('./models/Message');
 
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
@@ -25,13 +26,19 @@ const usersRouter = require('./routes/users');
 const apiRoute = require('./routes/apis');
 
 const app = express();
-
 const server = require('http').createServer(app);
-corsOptions = {
-  cors: true,
-  origins: ['http://localhost:3000'],
+
+const corsServerOptions = {
+  origin: process.env.REACT_APP_URL,
+  optionsSuccessStatus: 200,
 };
-const io = socketio(server, corsOptions);
+
+corsSocketOptions = {
+  cors: true,
+  origins: [process.env.REACT_APP_URL],
+};
+
+const io = socketio(server, corsSocketOptions);
 
 io.use(async (socket, next) => {
   if (socket.handshake.query.token && socket.handshake.query.token) {
@@ -46,53 +53,43 @@ io.use(async (socket, next) => {
     next(new Error('Authentication error'));
   }
 }).on('connection', (client) => {
+  // connect to socket
   console.log('Client connected...');
+  //join room
   client.on('join', (roomId) => {
-    console.log(roomId);
     client.join(roomId);
   });
 
-  client.on('message', (data) => {
-    client.emit('thread', data);
-    client.broadcast.emit('thread', data);
+  // get all message
+  client.on('sendAllMessages', (roomId) => {
+    const messages = await Message.find({ roomId }).populate(
+      'sender',
+      'fullname username -_id'
+    );
+
+    io.to(roomId).emit('receiveAllMessages', messages);
   });
 
+  // new message
+  client.on('sendNewMessage', (data) => {
+    const { roomId, message } = data;
+    const newMessage = await Message.create({
+      roomId,
+      message,
+      sender: socket.user._id,
+    });
+    const message = await Message.findById(newMessage._id).populate(
+      'sender',
+      'fullname username -_id'
+    );
+    io.to(roomId).emit('receiveNewMessage', message);
+  });
+
+  //disconnect socket client
   client.on('disconnect', () => {
     console.log('disconnected');
   });
 });
-// io.use((socket, next) => {
-//   if (socket.handshake.query && socket.handshake.query.token) {
-//     const token = socket.handshake.query.token.split(' ')[1];
-//     jwt.verify(token, process.env.JWT_KEY, (err, decoded) => {
-//       if (err) return next(new Error('Authentication error'));
-//       socket.userData = decoded;
-//       next();
-//     });
-//   } else {
-//     next(new Error('Authentication error'));
-//   }
-// }).on('connection', (socket) => {
-//   // Connection now authenticated to receive further events
-//   socket.join(socket.userData.userId);
-//   io.in(socket.userData.userId).clients((err, clients) => {
-//     userController.changeStatus(socket.userData.userId, clients, io);
-//     //console.log(clients);
-//   });
-//   socket.on('typing', (data) => {
-//     socket.to(data.userId).emit('typing', { roomId: data.roomId });
-//   });
-//   socket.on('stoppedTyping', (data) => {
-//     socket.to(data.userId).emit('stoppedTyping', { roomId: data.roomId });
-//   });
-//   socket.on('disconnect', () => {
-//     socket.leave(socket.userData.userId);
-//     io.in(socket.userData.userId).clients((err, clients) => {
-//       userController.changeStatus(socket.userData.userId, clients, io);
-//       //console.log(clients);
-//     });
-//   });
-// });
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -103,7 +100,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(cors(corsOptions));
+app.use(cors(corsServerOptions));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
@@ -126,6 +123,6 @@ app.use(function (err, req, res, next) {
   res.render('error');
 });
 
-server.listen(8081);
+server.listen(process.env.PORT || 8080);
 
 module.exports = app;
