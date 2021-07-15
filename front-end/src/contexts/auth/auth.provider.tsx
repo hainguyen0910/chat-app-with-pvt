@@ -52,9 +52,16 @@ export default function AuthProvider(props: IAuthProviderProps) {
       });
   };
 
+  const logout = async () => {
+    await authApi.logout().then((res) => {
+      localStorage.removeItem("auth");
+      history.push("/login");
+    });
+  };
+
   return (
     <AuthContext.Provider
-      value={{ authReducer, setAuthReducer, login, register }}
+      value={{ authReducer, setAuthReducer, login, register, logout }}
     >
       {children}
     </AuthContext.Provider>
