@@ -1,6 +1,7 @@
 const express = require('express');
+const middleware = require('../../middlewares/auth.middleware');
 const router = express.Router();
-const status = require('http-status');
+// const status = require('http-status');
 
 // router.use('/:apiUrl',(req,res)=>{
 //     const apiUrl = req.params;
@@ -9,6 +10,9 @@ const status = require('http-status');
 // })
 
 const authRoute = require('./auth');
-router.use('/auth',authRoute);
+const roomRoute = require('./room');
+
+router.use('/auth', authRoute);
+router.use('/rooms', middleware.requireAuth, roomRoute);
 
 module.exports = router;

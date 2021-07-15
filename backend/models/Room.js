@@ -7,7 +7,7 @@ const roomSchema = new mongoose.Schema(
       required: true,
       unique: true,
     },
-    roomName: {
+    name: {
       type: String,
       required: true,
       default: '',
@@ -21,9 +21,10 @@ const roomSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
+    versionKey:false
   }
 );
 
 const Room = mongoose.model('Room', roomSchema);
 
-module.exports = User;
+module.exports = Room;
