@@ -61,7 +61,7 @@ io.use(async (socket, next) => {
   });
 
   // get all message
-  client.on('sendAllMessages', (roomId) => {
+  client.on('sendAllMessages', async (roomId) => {
     const messages = await Message.find({ roomId }).populate(
       'sender',
       'fullname username -_id'
@@ -71,11 +71,11 @@ io.use(async (socket, next) => {
   });
 
   // new message
-  client.on('sendNewMessage', (data) => {
-    const { roomId, message } = data;
+  client.on('sendNewMessage', async (data) => {
+    const { roomId, message: content } = data;
     const newMessage = await Message.create({
       roomId,
-      message,
+      message: content,
       sender: socket.user._id,
     });
     const message = await Message.findById(newMessage._id).populate(
