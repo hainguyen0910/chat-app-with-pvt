@@ -7,13 +7,13 @@ const messageSchema = new mongoose.Schema(
       ref: 'Room',
     },
     sender: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-    receiver: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    // receiver: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     message: {
       type: String,
       trim: true,
       minlength: 1,
     },
-    read: { type: Boolean, default: false },
+    // read: { type: Boolean, default: false },
   },
   {
     timestamps: true,
