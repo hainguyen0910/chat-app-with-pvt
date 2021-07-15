@@ -4,9 +4,14 @@ import BoxInfo from "components/Room/BoxInfo";
 import BoxUsers from "components/Room/BoxUsers";
 import Header from "components/Room/Header";
 import * as React from "react";
+import { history } from "App";
+
 export interface RoomProps {}
 
 export default function Room(props: RoomProps) {
+  if (!JSON.parse(localStorage.getItem("auth"))) {
+    history.push("/login");
+  }
   return (
     <Box
       bg={useColorModeValue("gray.50", "gray.900")}

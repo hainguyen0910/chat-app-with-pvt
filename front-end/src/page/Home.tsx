@@ -15,6 +15,7 @@ import { AppContext } from "contexts/app/app.context";
 import CardComponent from "components/Room/Card";
 import TabComponent from "components/Room/Tab";
 import React, { useContext, useState } from "react";
+import { history } from "App";
 
 interface loadingInterface {
   isLoading: boolean;
@@ -25,6 +26,9 @@ interface loadingInterface {
 }
 
 export default function Home() {
+  if (!JSON.parse(localStorage.getItem("auth"))) {
+    history.push("/login");
+  }
   const loading: loadingInterface = useContext(AppContext);
   const { isLoading, setIsLoading } = loading;
 
