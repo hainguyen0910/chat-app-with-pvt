@@ -28,7 +28,8 @@ export default function Form(props: IFormProps) {
       boxShadow={"lg"}
       p={8}
       w={"100%"}
-      minH={"80%"}
+      minH={"50vh"}
+      maxH={"80vh"}
       spacing={4}
       divider={
         <StackDivider borderColor={useColorModeValue("gray.100", "gray.700")} />

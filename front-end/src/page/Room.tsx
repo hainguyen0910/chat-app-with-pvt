@@ -5,13 +5,26 @@ import BoxUsers from "components/Room/BoxUsers";
 import Header from "components/Room/Header";
 import * as React from "react";
 import { history } from "App";
+import { RoomContext } from "contexts/room/room.context";
 
 export interface RoomProps {}
+
+interface RoomContextInterface {
+  roomReducer: object;
+  setRoomReducer: (state: any) => void;
+  joinRoom: (roomID: string) => void;
+  createRoom: (roomName: string) => void;
+  getAllRoom: () => void;
+}
 
 export default function Room(props: RoomProps) {
   if (!JSON.parse(localStorage.getItem("auth"))) {
     history.push("/login");
   }
+
+  const roomContext: RoomContextInterface = React.useContext(RoomContext);
+  const { roomReducer } = roomContext;
+
   return (
     <Box
       bg={useColorModeValue("gray.50", "gray.900")}

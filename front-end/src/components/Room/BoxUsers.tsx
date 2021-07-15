@@ -17,6 +17,8 @@ export interface IBoxInfoProps {
 
 export default function BoxInfo(props: IBoxInfoProps) {
   const { titleBox } = props;
+  const roomReducer = JSON.parse(localStorage.getItem("currentRoom"));
+
   return (
     <Box
       py={4}
@@ -25,7 +27,6 @@ export default function BoxInfo(props: IBoxInfoProps) {
       bg={useColorModeValue("white", "gray.700")}
       boxShadow={"lg"}
       p={8}
-      w={"100%"}
     >
       <Heading as="h2" size="xl">
         {titleBox}
@@ -36,7 +37,7 @@ export default function BoxInfo(props: IBoxInfoProps) {
             Total
           </Text>
           <Text fontSize="5xl" fontWeight="900">
-            123456
+            {roomReducer.members.length}
           </Text>
         </HStack>
       </Box>
@@ -46,297 +47,27 @@ export default function BoxInfo(props: IBoxInfoProps) {
           textAlign="start"
           px={12}
           style={{ overflow: "auto" }}
-          maxH={"37.5rem"}
+          maxH={"50vh"}
         >
-          <ListItem minW={"200px"}>
-            <Flex align={"center"}>
-              <Avatar
-                size={"sm"}
-                src={
-                  "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&ixid=eyJhcHBfaWQiOjE3Nzg0fQ"
-                }
-                alt={"Author"}
-                css={{
-                  border: "2px solid white",
-                }}
-              />
-              <Box as="a" color="teal.400" href="#" fontWeight="bold" ml={3}>
-                Tao nef
-              </Box>
-            </Flex>
-          </ListItem>
-          <ListItem>
-            <Flex align={"center"}>
-              <Avatar
-                size={"sm"}
-                src={
-                  "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&ixid=eyJhcHBfaWQiOjE3Nzg0fQ"
-                }
-                alt={"Author"}
-                css={{
-                  border: "2px solid white",
-                }}
-              />
-              <Box as="a" color="teal.400" href="#" fontWeight="bold" ml={3}>
-                Tao nef aaaaaaaa
-              </Box>
-            </Flex>
-          </ListItem>
-          <ListItem>
-            <Flex align={"center"}>
-              <Avatar
-                size={"sm"}
-                src={
-                  "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&ixid=eyJhcHBfaWQiOjE3Nzg0fQ"
-                }
-                alt={"Author"}
-                css={{
-                  border: "2px solid white",
-                }}
-              />
-              <Box as="a" color="teal.400" href="#" fontWeight="bold" ml={3}>
-                Tao nef aaaaaaaa
-              </Box>
-            </Flex>
-          </ListItem>{" "}
-          <ListItem>
-            <Flex align={"center"}>
-              <Avatar
-                size={"sm"}
-                src={
-                  "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&ixid=eyJhcHBfaWQiOjE3Nzg0fQ"
-                }
-                alt={"Author"}
-                css={{
-                  border: "2px solid white",
-                }}
-              />
-              <Box as="a" color="teal.400" href="#" fontWeight="bold" ml={3}>
-                Tao nef aaaaaaaa
-              </Box>
-            </Flex>
-          </ListItem>{" "}
-          <ListItem>
-            <Flex align={"center"}>
-              <Avatar
-                size={"sm"}
-                src={
-                  "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&ixid=eyJhcHBfaWQiOjE3Nzg0fQ"
-                }
-                alt={"Author"}
-                css={{
-                  border: "2px solid white",
-                }}
-              />
-              <Box as="a" color="teal.400" href="#" fontWeight="bold" ml={3}>
-                Tao nef aaaaaaaa
-              </Box>
-            </Flex>
-          </ListItem>{" "}
-          <ListItem>
-            <Flex align={"center"}>
-              <Avatar
-                size={"sm"}
-                src={
-                  "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&ixid=eyJhcHBfaWQiOjE3Nzg0fQ"
-                }
-                alt={"Author"}
-                css={{
-                  border: "2px solid white",
-                }}
-              />
-              <Box as="a" color="teal.400" href="#" fontWeight="bold" ml={3}>
-                Tao nef aaaaaaaa
-              </Box>
-            </Flex>
-          </ListItem>{" "}
-          <ListItem>
-            <Flex align={"center"}>
-              <Avatar
-                size={"sm"}
-                src={
-                  "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&ixid=eyJhcHBfaWQiOjE3Nzg0fQ"
-                }
-                alt={"Author"}
-                css={{
-                  border: "2px solid white",
-                }}
-              />
-              <Box as="a" color="teal.400" href="#" fontWeight="bold" ml={3}>
-                Tao nef aaaaaaaa
-              </Box>
-            </Flex>
-          </ListItem>{" "}
-          <ListItem>
-            <Flex align={"center"}>
-              <Avatar
-                size={"sm"}
-                src={
-                  "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&ixid=eyJhcHBfaWQiOjE3Nzg0fQ"
-                }
-                alt={"Author"}
-                css={{
-                  border: "2px solid white",
-                }}
-              />
-              <Box as="a" color="teal.400" href="#" fontWeight="bold" ml={3}>
-                Tao nef aaaaaaaa
-              </Box>
-            </Flex>
-          </ListItem>{" "}
-          <ListItem>
-            <Flex align={"center"}>
-              <Avatar
-                size={"sm"}
-                src={
-                  "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&ixid=eyJhcHBfaWQiOjE3Nzg0fQ"
-                }
-                alt={"Author"}
-                css={{
-                  border: "2px solid white",
-                }}
-              />
-              <Box as="a" color="teal.400" href="#" fontWeight="bold" ml={3}>
-                Tao nef aaaaaaaa
-              </Box>
-            </Flex>
-          </ListItem>{" "}
-          <ListItem>
-            <Flex align={"center"}>
-              <Avatar
-                size={"sm"}
-                src={
-                  "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&ixid=eyJhcHBfaWQiOjE3Nzg0fQ"
-                }
-                alt={"Author"}
-                css={{
-                  border: "2px solid white",
-                }}
-              />
-              <Box as="a" color="teal.400" href="#" fontWeight="bold" ml={3}>
-                Tao nef aaaaaaaa
-              </Box>
-            </Flex>
-          </ListItem>{" "}
-          <ListItem>
-            <Flex align={"center"}>
-              <Avatar
-                size={"sm"}
-                src={
-                  "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&ixid=eyJhcHBfaWQiOjE3Nzg0fQ"
-                }
-                alt={"Author"}
-                css={{
-                  border: "2px solid white",
-                }}
-              />
-              <Box as="a" color="teal.400" href="#" fontWeight="bold" ml={3}>
-                Tao nef aaaaaaaa
-              </Box>
-            </Flex>
-          </ListItem>{" "}
-          <ListItem>
-            <Flex align={"center"}>
-              <Avatar
-                size={"sm"}
-                src={
-                  "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&ixid=eyJhcHBfaWQiOjE3Nzg0fQ"
-                }
-                alt={"Author"}
-                css={{
-                  border: "2px solid white",
-                }}
-              />
-              <Box as="a" color="teal.400" href="#" fontWeight="bold" ml={3}>
-                Tao nef aaaaaaaa
-              </Box>
-            </Flex>
-          </ListItem>{" "}
-          <ListItem>
-            <Flex align={"center"}>
-              <Avatar
-                size={"sm"}
-                src={
-                  "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&ixid=eyJhcHBfaWQiOjE3Nzg0fQ"
-                }
-                alt={"Author"}
-                css={{
-                  border: "2px solid white",
-                }}
-              />
-              <Box as="a" color="teal.400" href="#" fontWeight="bold" ml={3}>
-                Tao nef aaaaaaaa
-              </Box>
-            </Flex>
-          </ListItem>{" "}
-          <ListItem>
-            <Flex align={"center"}>
-              <Avatar
-                size={"sm"}
-                src={
-                  "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&ixid=eyJhcHBfaWQiOjE3Nzg0fQ"
-                }
-                alt={"Author"}
-                css={{
-                  border: "2px solid white",
-                }}
-              />
-              <Box as="a" color="teal.400" href="#" fontWeight="bold" ml={3}>
-                Tao nef aaaaaaaa
-              </Box>
-            </Flex>
-          </ListItem>{" "}
-          <ListItem>
-            <Flex align={"center"}>
-              <Avatar
-                size={"sm"}
-                src={
-                  "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&ixid=eyJhcHBfaWQiOjE3Nzg0fQ"
-                }
-                alt={"Author"}
-                css={{
-                  border: "2px solid white",
-                }}
-              />
-              <Box as="a" color="teal.400" href="#" fontWeight="bold" ml={3}>
-                Tao nef aaaaaaaa
-              </Box>
-            </Flex>
-          </ListItem>{" "}
-          <ListItem>
-            <Flex align={"center"}>
-              <Avatar
-                size={"sm"}
-                src={
-                  "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&ixid=eyJhcHBfaWQiOjE3Nzg0fQ"
-                }
-                alt={"Author"}
-                css={{
-                  border: "2px solid white",
-                }}
-              />
-              <Box as="a" color="teal.400" href="#" fontWeight="bold" ml={3}>
-                Tao nef aaaaaaaa
-              </Box>
-            </Flex>
-          </ListItem>{" "}
-          <ListItem>
-            <Flex align={"center"}>
-              <Avatar
-                size={"sm"}
-                src={
-                  "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&ixid=eyJhcHBfaWQiOjE3Nzg0fQ"
-                }
-                alt={"Author"}
-                css={{
-                  border: "2px solid white",
-                }}
-              />
-              <Box as="a" color="teal.400" href="#" fontWeight="bold" ml={3}>
-                Tao nef aaaaaaaa
-              </Box>
-            </Flex>
-          </ListItem>
+          {roomReducer.members.map((item: any, index: any) => (
+            <ListItem minW={"200px"} key={index}>
+              <Flex align={"center"}>
+                <Avatar
+                  size={"sm"}
+                  src={
+                    "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&ixid=eyJhcHBfaWQiOjE3Nzg0fQ"
+                  }
+                  alt={"Author"}
+                  css={{
+                    border: "2px solid white",
+                  }}
+                />
+                <Box as="a" color="teal.400" href="#" fontWeight="bold" ml={3}>
+                  {item}
+                </Box>
+              </Flex>
+            </ListItem>
+          ))}
         </List>
       </VStack>
     </Box>
