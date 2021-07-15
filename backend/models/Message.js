@@ -17,9 +17,10 @@ const messageSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
+    versionKey:false
   }
 );
 
 const Message = mongoose.model('Message', messageSchema);
 
-module.exports = User;
+module.exports = Message;
