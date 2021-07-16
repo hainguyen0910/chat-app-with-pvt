@@ -26,7 +26,7 @@ const userSchema = new mongoose.Schema(
     avatar: {
       type: String,
       default:
-        'https://res.cloudinary.com/pvt-cloud/image/upload/v1626445822/chat-app-with-pvt/avatars/unknown_cctkxu.jpg',
+        'https://res.cloudinary.com/pvt-cloud/image/upload/c_thumb,h_300,w_300/v1626445822/chat-app-with-pvt/avatars/defaults/unknown_cctkxu.jpg',
     },
     birthday: {
       type: Date,
