@@ -3,8 +3,9 @@ const mongoose = require('mongoose');
 const messageSchema = new mongoose.Schema(
   {
     roomId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Room',
+      type: String,
+      trim: true,
+      required: true,
     },
     sender: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     // receiver: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
@@ -17,7 +18,7 @@ const messageSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
-    versionKey:false
+    versionKey: false,
   }
 );
 

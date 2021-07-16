@@ -22,8 +22,18 @@ module.exports.login = async (req, res) => {
     const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
       expiresIn: process.env.JWT_EXPIRE,
     });
-    const { _id, username, fullname, createdAt } = user;
-    return res.json({ _id, username, fullname, createdAt, token });
+
+    const { _id, username, fullname, sex, avatar, birthday, createdAt } = user;
+    return res.json({
+      _id,
+      username,
+      fullname,
+      sex,
+      avatar,
+      birthday,
+      createdAt,
+      token
+    });
   });
 };
 

@@ -64,7 +64,7 @@ io.use(async (socket, next) => {
   client.on('sendAllMessages', async (roomId) => {
     const messages = await Message.find({ roomId }).populate(
       'sender',
-      'fullname username -_id'
+      'fullname username sex avatar birthday _id'
     );
 
     io.to(roomId).emit('receiveAllMessages', messages);
@@ -76,11 +76,11 @@ io.use(async (socket, next) => {
     const newMessage = await Message.create({
       roomId,
       message: content,
-      sender: socket.user._id,
+      sender: client.user._id,
     });
     const message = await Message.findById(newMessage._id).populate(
       'sender',
-      'fullname username -_id'
+      'fullname username sex avatar birthday _id'
     );
     io.to(roomId).emit('receiveNewMessage', message);
   });

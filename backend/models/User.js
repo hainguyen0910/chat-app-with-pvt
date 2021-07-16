@@ -18,10 +18,25 @@ const userSchema = new mongoose.Schema(
       required: true,
       min: 5,
     },
+    sex: {
+      type: String,
+      enum: ['male', 'female', 'unknown'],
+      default: 'unknown'
+    },
+    avatar: {
+      type: String,
+      default:
+        'https://res.cloudinary.com/pvt-cloud/image/upload/v1626445822/chat-app-with-pvt/avatars/unknown_cctkxu.jpg',
+    },
+    birthday: {
+      type: Date,
+      default: Date.now,
+      required: true,
+    },
   },
   {
     timestamps: true,
-    versionKey:false
+    versionKey: false,
   }
 );
 
