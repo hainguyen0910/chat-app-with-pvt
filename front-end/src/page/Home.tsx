@@ -47,7 +47,8 @@ export default function Home(props: RoomProps) {
       <Header />
       <Flex color="black.50">
         <Box
-          w={["0", "0", "20%", "20%"]}
+          // w={["0", "0", "20%", "20%"]}
+          minW={["0", "0", "20vw", "20vw"]}
           p={["1", "2", "3", "3"]}
           h={"90vh"}
           display={["none", "none", "block", "block"]}
@@ -55,7 +56,7 @@ export default function Home(props: RoomProps) {
           <ListRoom />
         </Box>
         <Box
-          w={["100%", "100%", "60%", "60%"]}
+          w={["100%", "100%", "100%", "60%"]}
           h={"90vh"}
           p={["1", "2", "3", "3"]}
         >
@@ -63,9 +64,9 @@ export default function Home(props: RoomProps) {
         </Box>
 
         <Box
-          w={["0", "0", "20%", "20%"]}
+          w={["0", "0", "0", "20%"]}
           maxH={"100%"}
-          display={["none", "none", "block", "block"]}
+          display={["none", "none", "none", "block"]}
           p={["1", "2", "3", "3"]}
         >
           <BoxInfo titleBox="Room info" />

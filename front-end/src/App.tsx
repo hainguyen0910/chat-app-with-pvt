@@ -11,14 +11,14 @@ import "App.css";
 import AuthProvider from "contexts/auth/auth.provider";
 import RoomProvider from "contexts/room/room.provider";
 
-// const breakpoints = createBreakpoints({
-//   sm: "320px",
-//   md: "768px",
-//   lg: "960px",
-//   xl: "1200px",
-// });
+const breakpoints = createBreakpoints({
+  sm: "320px",
+  md: "768px",
+  lg: "960px",
+  xl: "1200px",
+});
 
-// const theme = extendTheme({ breakpoints });
+const newTheme = extendTheme({ breakpoints });
 
 export const history = createBrowserHistory();
 
