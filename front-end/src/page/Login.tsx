@@ -1,26 +1,24 @@
-import React, { useState } from "react";
 import {
-  Box,
-  Flex,
-  Stack,
-  Heading,
-  Text,
-  Container,
-  Input,
-  Button,
-  SimpleGrid,
   Avatar,
   AvatarGroup,
-  useBreakpointValue,
-  IconProps,
+  Box,
+  Button,
+  Container,
+  Flex,
+  Heading,
   Icon,
-  Select,
+  IconProps,
+  Input,
+  SimpleGrid,
+  Stack,
+  Text,
+  useBreakpointValue,
   useDisclosure,
 } from "@chakra-ui/react";
-
 import { history } from "App";
+import ModalComponent from "components/Modal/Modal";
 import { AuthContext } from "contexts/auth/auth.context";
-import ModalComponent from "components/Modal";
+import React, { useState } from "react";
 
 const avatars = [
   {

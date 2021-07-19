@@ -5,17 +5,15 @@ import {
   Flex,
   Heading,
   Image,
+  Input,
+  Select,
   Stack,
   Text,
   useColorModeValue,
   useDisclosure,
-  FormControl,
-  FormLabel,
-  Input,
-  Select,
 } from "@chakra-ui/react";
+import ModalComponent from "components/Modal/Modal";
 import * as React from "react";
-import ModalComponent from "components/Modal";
 
 export interface CardProps {
   typeButton: string;
@@ -46,7 +44,7 @@ export default function CardComponent(props: CardProps) {
         <Avatar
           size={"xl"}
           src={
-            "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&ixid=eyJhcHBfaWQiOjE3Nzg0fQ"
+            "https://images.unsplash.com/photo-1622495725836-e06fe8ffa7fc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=784&q=80%20784w"
           }
           alt={"Author"}
           css={{

@@ -1,27 +1,24 @@
-import * as React from "react";
 import {
-  Box,
-  Center,
-  Flex,
-  useColorModeValue,
-  Icon,
-  Text,
   Avatar,
+  Flex,
+  Icon,
   Menu,
   MenuButton,
-  Portal,
-  MenuList,
   MenuItem,
+  MenuList,
+  Portal,
+  Text,
 } from "@chakra-ui/react";
-import { BiArrowBack } from "react-icons/bi";
 import { history } from "App";
 import { AuthContext } from "contexts/auth/auth.context";
+import * as React from "react";
+import { BiArrowBack } from "react-icons/bi";
 
 export interface IHeaderProps {}
 
 export default function Header(props: IHeaderProps) {
   const auth = React.useContext(AuthContext);
-  const { logout } = auth;
+  const { authReducer, logout } = auth;
 
   return (
     <Flex
@@ -31,27 +28,30 @@ export default function Header(props: IHeaderProps) {
       px={5}
       borderBottomWidth={2}
       borderBottomColor={"white"}
+      h={"10vh"}
     >
       <Icon
         as={BiArrowBack}
         color="gray.500"
-        w={6}
-        h={6}
+        w={0}
+        h={0}
         ml={3}
         style={{ cursor: "pointer" }}
         onClick={() => history.goBack()}
       />
-      <Text fontSize="5xl" fontWeight="900" color={"gray"}>
+      <Text
+        fontSize={["1xl", "2xl", "2xl", "5xl"]}
+        fontWeight="900"
+        color={"gray"}
+      >
         PVT CHAT
       </Text>
       <Menu>
         <MenuButton>
           <Avatar
             size={"md"}
-            src={
-              "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&ixid=eyJhcHBfaWQiOjE3Nzg0fQ"
-            }
-            alt={"Author"}
+            src={authReducer.avatar}
+            alt={"Avatar"}
             css={{
               border: "2px solid white",
             }}

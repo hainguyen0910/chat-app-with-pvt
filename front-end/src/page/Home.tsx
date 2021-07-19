@@ -1,21 +1,13 @@
-import {
-  Box,
-  Center,
-  Container,
-  Flex,
-  Stack,
-  Tab,
-  TabList,
-  TabPanel,
-  TabPanels,
-  Tabs,
-  useColorModeValue,
-} from "@chakra-ui/react";
-import { AppContext } from "contexts/app/app.context";
-import CardComponent from "components/Room/Card";
-import TabComponent from "components/Room/Tab";
-import React, { useContext, useState } from "react";
+import { Box, Flex, useColorModeValue } from "@chakra-ui/react";
 import { history } from "App";
+import ChatBoard from "components/Chat/ChatBoard";
+import Header from "components/Header/Header";
+import BoxInfo from "components/Room/BoxInfo";
+import BoxUsers from "components/Room/BoxUsers";
+import ListRoom from "components/Room/ListRoom";
+import { AppContext } from "contexts/app/app.context";
+import { RoomContext } from "contexts/room/room.context";
+import React, { useContext, useState } from "react";
 
 interface loadingInterface {
   isLoading: boolean;
@@ -25,87 +17,61 @@ interface loadingInterface {
   };
 }
 
-export default function Home() {
+interface RoomContextInterface {
+  roomReducer: object;
+  setRoomReducer: (state: any) => void;
+  joinRoom: (roomID: string) => void;
+  createRoom: (roomName: string) => void;
+  getAllRoom: () => void;
+}
+
+interface RoomProps {}
+
+export default function Home(props: RoomProps) {
   if (!JSON.parse(localStorage.getItem("auth"))) {
     history.push("/login");
   }
   const loading: loadingInterface = useContext(AppContext);
+
+  const roomContext: RoomContextInterface = React.useContext(RoomContext);
+  const { roomReducer } = roomContext;
+
   const { isLoading, setIsLoading } = loading;
-
-  const [titleForm, setTitleForm] = useState("Join room");
-  const [subTitle, setSubTitle] = useState(
-    "To join room and chat, please enter the code room"
-  );
-  const [nameButton, setNameButton] = useState("Join");
-
-  const handleSubmitEditProfile = () => {
-    console.log("submited");
-  };
 
   return (
     <Box
       bg={useColorModeValue("gray.50", "gray.900")}
       color={useColorModeValue("gray.700", "gray.200")}
+      minH="100vh"
     >
-      <Container
-        as={Stack}
-        maxW={"6xl"}
-        py={4}
-        spacing={4}
-        justify={"center"}
-        align={"center"}
-      >
-        <Stack direction={"row"} spacing={6}>
-          <Tabs variant="enclosed" isFitted>
-            <Center>
-              <TabList>
-                <Tab _selected={{ color: "white", bg: "blue.500" }}>Room</Tab>
-                <Tab _selected={{ color: "white", bg: "green.400" }}>
-                  Profile
-                </Tab>
-              </TabList>
-            </Center>
-            <TabPanels>
-              <TabPanel>
-                <Flex
-                  minH={"89.3vh"}
-                  align={"center"}
-                  justify={"center"}
-                  bg={useColorModeValue("gray.50", "gray.800")}
-                >
-                  <Stack
-                    spacing={8}
-                    mx={"auto"}
-                    maxW={"lg"}
-                    py={12}
-                    px={6}
-                    width={"30vw"}
-                  >
-                    <TabComponent
-                      isLoading={isLoading}
-                      setIsLoading={setIsLoading}
-                      titleForm={titleForm}
-                      setTitleForm={setTitleForm}
-                      subTitle={subTitle}
-                      setSubTitle={setSubTitle}
-                      nameButton={nameButton}
-                      setNameButton={setNameButton}
-                    />
-                  </Stack>
-                </Flex>
-              </TabPanel>
-              <TabPanel>
-                <Center py={6} minH={"89.3vh"}>
-                  <CardComponent
-                    typeButton="edit"
-                    handleOnSubmit={handleSubmitEditProfile}
-                  />
-                </Center>
-              </TabPanel>
-            </TabPanels>
-          </Tabs>
-        </Stack>
-      </Container>
+      <Header />
+      <Flex color="black.50">
+        <Box
+          w={["0", "0", "20%", "20%"]}
+          p={["1", "2", "3", "3"]}
+          h={"90vh"}
+          display={["none", "none", "block", "block"]}
+        >
+          <ListRoom />
+        </Box>
+        <Box
+          w={["100%", "100%", "60%", "60%"]}
+          h={"90vh"}
+          p={["1", "2", "3", "3"]}
+        >
+          <ChatBoard />
+        </Box>
+
+        <Box
+          w={["0", "0", "20%", "20%"]}
+          maxH={"100%"}
+          display={["none", "none", "block", "block"]}
+          p={["1", "2", "3", "3"]}
+        >
+          <BoxInfo titleBox="Room info" />
+          <BoxUsers titleBox="Users in room" />
+        </Box>
+      </Flex>
     </Box>
   );
 }
