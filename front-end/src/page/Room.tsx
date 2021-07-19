@@ -1,5 +1,5 @@
 import { Box, Center, Flex, useColorModeValue } from "@chakra-ui/react";
-import ChatBoard from "components/Chat/ChatBoard";
+import Form from "components/Chat/Form";
 import BoxInfo from "components/Room/BoxInfo";
 import BoxUsers from "components/Room/BoxUsers";
 import Header from "components/Header/Header";
@@ -35,7 +35,7 @@ export default function Room(props: RoomProps) {
       <Header />
       <Flex color="black.50">
         <Box w="70%" p={5} maxH={"100%"}>
-          <ChatBoard />
+          <Form />
         </Box>
         <Box w="30%" p={5} maxH={"80vh"}>
           <BoxInfo titleBox="Room info" />
