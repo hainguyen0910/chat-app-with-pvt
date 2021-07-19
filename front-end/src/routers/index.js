@@ -1,6 +1,6 @@
 import Home from "page/Home";
 import Login from "page/Login";
-import Room from "page/Room";
+import Notfound from "page/Notfound";
 
 export const ROUTERS = [
   {
@@ -16,9 +16,8 @@ export const ROUTERS = [
     exact: true,
   },
   {
-    name: "Room",
-    component: Room,
-    path: "/room/:id",
-    exact: false,
+    name: "Notfound",
+    component: Notfound,
+    path: "*",
   },
 ];
