@@ -19,44 +19,46 @@ export interface IBoxInfoProps {
 
 export default function BoxInfo(props: IBoxInfoProps) {
   const { titleBox } = props;
-  const roomReducer = JSON.parse(localStorage.getItem("currentRoom"));
+  const roomReducer = JSON.parse(localStorage.getItem("currentRoom") || "{}");
   return (
     <Box
       borderBottomRadius={"xl"}
       rounded={"lg"}
       bg={useColorModeValue("white", "gray.700")}
       boxShadow={"lg"}
-      p={8}
+      p={["1", "2", "3", "3"]}
+      mb={5}
     >
-      <Heading as="h2" size="xl">
-        {titleBox}
-      </Heading>
+      <Heading fontSize={["sm", "md", "md", "xl"]}>{titleBox}</Heading>
       <Box py={4} px={12}>
         <HStack justifyContent="center">
-          <Text fontSize="3xl" color="gray.500">
+          <Text fontSize="xl" color="gray.500">
             ID
           </Text>
-          <Text fontSize="5xl" fontWeight="900">
+          <Text
+            fontSize={["sm", "md", "md", "xl"]}
+            fontWeight={["500", "500", "500", "900"]}
+          >
             {roomReducer.roomId}
           </Text>
         </HStack>
       </Box>
-      <VStack>
-        <List spacing={3} textAlign="start" px={12}>
-          <ListItem>
-            <ListIcon as={FaCheckCircle} color="green.500" />
-            Private
-          </ListItem>
-          <ListItem>
-            <ListIcon as={FaCheckCircle} color="green.500" />
-            Host: {roomReducer.members[0]}
-          </ListItem>
-          <ListItem>
-            <ListIcon as={FaCheckCircle} color="green.500" />
-            Create at: {moment(roomReducer.createdAt).format("MMM Do YY")}
-          </ListItem>
-        </List>
-      </VStack>
+      <List spacing={3} textAlign="start">
+        <ListItem>
+          <ListIcon as={FaCheckCircle} color="green.500" />
+          Private
+        </ListItem>
+        <ListItem>
+          <ListIcon as={FaCheckCircle} color="green.500" />
+          {/* Host: {roomReducer.members[0].fullname} */}
+          Host
+        </ListItem>
+        <ListItem>
+          <ListIcon as={FaCheckCircle} color="green.500" />
+          {/* Create at: {moment(roomReducer.createdAt).format("MMM Do YY")} */}
+          Create at
+        </ListItem>
+      </List>
     </Box>
   );
 }

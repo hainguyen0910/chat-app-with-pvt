@@ -26,50 +26,62 @@ export default function BoxInfo(props: IBoxInfoProps) {
       rounded={"lg"}
       bg={useColorModeValue("white", "gray.700")}
       boxShadow={"lg"}
-      p={8}
+      p={["1", "2", "3", "3"]}
     >
-      <Heading as="h2" size="xl">
-        {titleBox}
-      </Heading>
+      <Heading fontSize={["sm", "md", "md", "xl"]}>{titleBox}</Heading>
       <Box py={4} px={12}>
         <HStack justifyContent="center">
-          <Text fontSize="3xl" color="gray.500">
+          <Text fontSize={["sm", "md", "md", "xl"]} color="gray.500">
             Total
           </Text>
-          <Text fontSize="5xl" fontWeight="900">
-            {roomReducer.members.length}
+          <Text
+            fontSize={["sm", "md", "3xl"]}
+            fontWeight={["500", "500", "500", "900"]}
+          >
+            {/* {roomReducer.members.length} */}1
           </Text>
         </HStack>
       </Box>
-      <VStack>
-        <List
-          spacing={3}
-          textAlign="start"
-          px={12}
-          style={{ overflow: "auto" }}
-          maxH={"50vh"}
-        >
-          {roomReducer.members.map((item: any, index: any) => (
-            <ListItem minW={"200px"} key={index}>
-              <Flex align={"center"}>
-                <Avatar
-                  size={"sm"}
-                  src={
-                    "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&ixid=eyJhcHBfaWQiOjE3Nzg0fQ"
-                  }
-                  alt={"Author"}
-                  css={{
-                    border: "2px solid white",
-                  }}
-                />
-                <Box as="a" color="teal.400" href="#" fontWeight="bold" ml={3}>
-                  {item}
-                </Box>
-              </Flex>
-            </ListItem>
-          ))}
-        </List>
-      </VStack>
+      <List
+        spacing={3}
+        textAlign="start"
+        style={{ overflow: "auto" }}
+        maxH={"50vh"}
+      >
+        {/* {roomReducer.members.map((item: any, index: any) => (
+          <ListItem minW={"200px"} key={index}>
+            <Flex align={"center"}>
+              <Avatar
+                size={"sm"}
+                src={item.avatar}
+                alt={"Author"}
+                css={{
+                  border: "2px solid white",
+                }}
+              />
+              <Box as="a" color="teal.400" href="#" fontWeight="bold" ml={3}>
+                {item.fullname}
+              </Box>
+            </Flex>
+          </ListItem>
+        ))} */}
+        <ListItem minW={"200px"}>
+          <Flex align={"center"}>
+            <Avatar
+              size={"sm"}
+              // src={item.avatar}
+              alt={"Author"}
+              css={{
+                border: "2px solid white",
+              }}
+            />
+            <Box as="a" color="teal.400" href="#" fontWeight="bold" ml={3}>
+              {/* {item.fullname} */}
+              name
+            </Box>
+          </Flex>
+        </ListItem>
+      </List>
     </Box>
   );
 }

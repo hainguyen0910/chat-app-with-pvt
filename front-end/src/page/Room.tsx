@@ -1,8 +1,8 @@
 import { Box, Center, Flex, useColorModeValue } from "@chakra-ui/react";
-import Form from "components/Chat/Form";
+import ChatBoard from "components/Chat/ChatBoard";
 import BoxInfo from "components/Room/BoxInfo";
 import BoxUsers from "components/Room/BoxUsers";
-import Header from "components/Room/Header";
+import Header from "components/Header/Header";
 import * as React from "react";
 import { history } from "App";
 import { RoomContext } from "contexts/room/room.context";
@@ -18,7 +18,8 @@ interface RoomContextInterface {
 }
 
 export default function Room(props: RoomProps) {
-  if (!JSON.parse(localStorage.getItem("auth"))) {
+  const auth = JSON.parse(localStorage.getItem("auth") || "{}");
+  if (auth === "{}") {
     history.push("/login");
   }
 
@@ -33,13 +34,11 @@ export default function Room(props: RoomProps) {
     >
       <Header />
       <Flex color="black.50">
-        <Box w="25%" p={5} maxH={"80vh"}>
+        <Box w="70%" p={5} maxH={"100%"}>
+          <ChatBoard />
+        </Box>
+        <Box w="30%" p={5} maxH={"80vh"}>
           <BoxInfo titleBox="Room info" />
-        </Box>
-        <Box w="50%" p={5} maxH={"80vh"}>
-          <Form />
-        </Box>
-        <Box w="25%" p={5} maxH={"80vh"}>
           <BoxUsers titleBox="Users in room" />
         </Box>
       </Flex>

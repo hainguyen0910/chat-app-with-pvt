@@ -3,10 +3,12 @@ import * as React from "react";
 
 export interface IMessageProps {
   isCurrentUser: boolean;
+  message: any;
 }
 
 export default function Message(props: IMessageProps) {
-  const { isCurrentUser } = props;
+  const { isCurrentUser, message } = props;
+
   return (
     <Flex w={"auto"} justify={isCurrentUser ? "flex-end" : "flex-start"} m={3}>
       <p
@@ -20,8 +22,7 @@ export default function Message(props: IMessageProps) {
           maxWidth: "50%",
         }}
       >
-        tin nhắn nè tin nhắn nètin nhắn nètin nhắn nètin nhắn nètin nhắn nètin
-        nhắn nètin nhắn nètin nhắn nè nhắn nètin nhắn nètin nhắn nè
+        {message.message}
       </p>
     </Flex>
   );

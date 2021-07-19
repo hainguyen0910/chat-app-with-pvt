@@ -9,9 +9,13 @@ export interface IAuthProviderProps {
 }
 
 const initialState = {
-  username: null,
-  fullname: null,
-  token: null,
+  avatar: JSON.parse(localStorage.getItem("auth") || "{}").avatar,
+  username: JSON.parse(localStorage.getItem("auth") || "{}").username,
+  fullname: JSON.parse(localStorage.getItem("auth") || "{}").fullname,
+  token: JSON.parse(localStorage.getItem("auth") || "{}").token,
+  birthday: JSON.parse(localStorage.getItem("auth") || "{}").birthday,
+  createdAt: JSON.parse(localStorage.getItem("auth") || "{}").createdAt,
+  sex: JSON.parse(localStorage.getItem("auth") || "{}").sex,
 };
 
 export default function AuthProvider(props: IAuthProviderProps) {
@@ -23,10 +27,14 @@ export default function AuthProvider(props: IAuthProviderProps) {
       .login({ username, password })
       .then((res) => {
         const { data } = res;
-        const auth = {
+        const auth: any = {
+          avatar: data.avatar,
           username: data.username,
           fullname: data.fullname,
           token: data.token,
+          birthday: data.birthday,
+          createAt: data.createAt,
+          sex: data.sex,
         };
         setAuthReducer(auth);
         localStorage.setItem("auth", JSON.stringify(auth));
