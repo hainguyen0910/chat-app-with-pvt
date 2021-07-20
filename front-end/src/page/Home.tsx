@@ -1,20 +1,23 @@
 import { Box, Flex, useColorModeValue } from "@chakra-ui/react";
 import { history } from "App";
+import BoxInfo from "components/Box/BoxInfo";
+import BoxUsers from "components/Box/BoxUsers";
 import ChatBoard from "components/Chat/ChatBoard";
 import Header from "components/Header/Header";
-import BoxInfo from "components/Room/BoxInfo";
-import BoxUsers from "components/Room/BoxUsers";
 import ListRoom from "components/Room/ListRoom";
+import Welcome from "components/Welcome/Welcome";
 import { AppContext } from "contexts/app/app.context";
 import { RoomContext } from "contexts/room/room.context";
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 
 interface loadingInterface {
-  isLoading: boolean;
+  isLoading: any;
   setIsLoading: {
     on: () => void;
     off: () => void;
+    toggle: () => void;
   };
+  // setIsLoading: any;
 }
 
 interface RoomContextInterface {
@@ -27,16 +30,48 @@ interface RoomContextInterface {
 
 interface RoomProps {}
 
+const avatars = [
+  {
+    name: "Ryan Florence",
+    url: "https://bit.ly/ryan-florence",
+  },
+  {
+    name: "Segun Adebayo",
+    url: "https://bit.ly/prosper-baba",
+  },
+  {
+    name: "Kent Dodds",
+    url: "https://bit.ly/kent-c-dodds",
+  },
+  {
+    name: "Prosper Otemuyiwa",
+    url: "https://bit.ly/prosper-baba",
+  },
+  {
+    name: "Christian Nwamba",
+    url: "https://bit.ly/code-beast",
+  },
+];
+
 export default function Home(props: RoomProps) {
-  if (!JSON.parse(localStorage.getItem("auth"))) {
+  if (!JSON.parse(localStorage.getItem("auth") || "{}")?.token) {
     history.push("/login");
   }
   const loading: loadingInterface = useContext(AppContext);
+  console.log(loading);
 
   const roomContext: RoomContextInterface = React.useContext(RoomContext);
   const { roomReducer } = roomContext;
 
   const { isLoading, setIsLoading } = loading;
+
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+  };
 
   return (
     <Box
@@ -55,7 +90,7 @@ export default function Home(props: RoomProps) {
         >
           <ListRoom />
         </Box>
-        <Box
+        {/* <Box
           w={["100%", "100%", "100%", "60%"]}
           h={"90vh"}
           p={["1", "2", "3", "3"]}
@@ -71,7 +106,8 @@ export default function Home(props: RoomProps) {
         >
           <BoxInfo titleBox="Room info" />
           <BoxUsers titleBox="Users in room" />
-        </Box>
+        </Box> */}
+        <Welcome />
       </Flex>
     </Box>
   );

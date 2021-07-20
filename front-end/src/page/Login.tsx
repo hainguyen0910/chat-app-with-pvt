@@ -50,7 +50,7 @@ interface loginContextInterface {
 }
 
 export default function JoinOurTeam() {
-  if (JSON.parse(localStorage.getItem("auth"))) {
+  if (JSON.parse(localStorage.getItem("auth") || "{}")?.token) {
     history.push("/");
   }
 
