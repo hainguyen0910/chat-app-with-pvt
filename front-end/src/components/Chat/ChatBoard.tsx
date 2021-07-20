@@ -5,40 +5,38 @@ import * as React from "react";
 import io from "socket.io-client";
 import InfoBar from "./InfoBar";
 import InputComponent from "./Input";
-export interface IChatBoardProps {
-  location: any;
-}
+export interface IChatBoardProps {}
 
 let socket: any;
 
 export default function ChatBoard(props: IChatBoardProps) {
-  const { location: path } = props;
-  const roomId = location.pathname.split("/")[2];
+  // const { location: path } = props;
+  // const roomId = location.pathname.split("/")[2];
 
   const [messages, setMessages] = React.useState([]);
 
-  React.useEffect(() => {
-    const ENDPOINT = "http://localhost:8080";
-    const token = JSON.parse(localStorage.getItem("auth") || "{}")?.token;
-    socket = io(ENDPOINT, { query: { token } });
-    socket.emit("join", roomId);
-  }, []);
+  // React.useEffect(() => {
+  //   const ENDPOINT = "http://localhost:8080";
+  //   const token = JSON.parse(localStorage.getItem("auth") || "{}")?.token;
+  //   socket = io(ENDPOINT, { query: { token } });
+  //   socket.emit("join", roomId);
+  // }, []);
 
-  React.useEffect(() => {
-    socket.emit("sendAllMessages", roomId);
+  // React.useEffect(() => {
+  //   socket.emit("sendAllMessages", roomId);
 
-    socket.on("receiveAllMessages", (data: any) => {
-      setMessages(data);
-      console.log(data);
-    });
-  }, []);
+  //   socket.on("receiveAllMessages", (data: any) => {
+  //     setMessages(data);
+  //     console.log(data);
+  //   });
+  // }, []);
 
   const sendMessage = (message: any) => {
-    socket.emit("sendNewMessage", { roomId, message });
-    socket.on("receiveNewMessage", (data: any) => {
-      const result = [...messages, data] as any;
-      setMessages(result);
-    });
+    // socket.emit("sendNewMessage", { roomId, message });
+    // socket.on("receiveNewMessage", (data: any) => {
+    //   const result = [...messages, data] as any;
+    //   setMessages(result);
+    // });
   };
 
   return (

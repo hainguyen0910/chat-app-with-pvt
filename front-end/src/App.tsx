@@ -1,24 +1,13 @@
-import { ChakraProvider, extendTheme, theme } from "@chakra-ui/react";
-import * as React from "react";
-import { Router, Route, Switch } from "react-router-dom";
-import { ROUTERS } from "routers";
-import LoadingOverlay from "react-loading-overlay";
-import { useBoolean } from "@chakra-ui/react";
-import { createBreakpoints } from "@chakra-ui/theme-tools";
-import { createBrowserHistory } from "history";
-import AppProvider from "contexts/app/app.provider";
+import { ChakraProvider, theme, useBoolean } from "@chakra-ui/react";
 import "App.css";
+import AppProvider from "contexts/app/app.provider";
 import AuthProvider from "contexts/auth/auth.provider";
 import RoomProvider from "contexts/room/room.provider";
-
-const breakpoints = createBreakpoints({
-  sm: "320px",
-  md: "768px",
-  lg: "960px",
-  xl: "1200px",
-});
-
-const newTheme = extendTheme({ breakpoints });
+import { createBrowserHistory } from "history";
+import * as React from "react";
+import LoadingOverlay from "react-loading-overlay";
+import { Route, Router, Switch } from "react-router-dom";
+import { ROUTERS } from "routers";
 
 export const history = createBrowserHistory();
 
