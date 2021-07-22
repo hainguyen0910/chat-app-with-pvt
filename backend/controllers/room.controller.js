@@ -1,5 +1,4 @@
 const status = require('http-status');
-const { indexOf } = require('lodash');
 const shortId = require('shortid');
 const Room = require('../models/Room');
 
@@ -143,7 +142,7 @@ module.exports.search = async (req, res) => {
   const rooms = await Room.find({
     name: new RegExp(`.*${q}.*`),
     members: { $nin: [req.userId] },
-  });
+  }).populate('members', 'fullname username sex avatar birthday _id');
 
   return res.json({ rooms });
 };
