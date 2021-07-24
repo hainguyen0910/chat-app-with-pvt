@@ -13,6 +13,11 @@ const roomApi = {
     const url = "/rooms/join";
     return axiosClient.post(url, data);
   },
+  leave: (data) => {
+    console.log(data);
+    const url = `/rooms/${data}/leave`;
+    return axiosClient.get(url);
+  },
 };
 
 export default roomApi;

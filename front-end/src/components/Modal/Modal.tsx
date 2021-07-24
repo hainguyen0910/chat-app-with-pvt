@@ -17,17 +17,26 @@ export interface ModalProps {
   modalTitle: string;
   titleButton: string;
   handleOnSubmit: () => void;
+  size: string;
 }
 
 export default function ModalComponent(props: ModalProps) {
-  const { isOpen, onClose, modalTitle, children, titleButton, handleOnSubmit } =
-    props;
+  const {
+    isOpen,
+    onClose,
+    modalTitle,
+    children,
+    titleButton,
+    handleOnSubmit,
+    size,
+  } = props;
   return (
     <Modal
       isCentered={true}
       onClose={onClose}
       isOpen={isOpen}
       motionPreset="slideInBottom"
+      size={size}
     >
       <ModalOverlay />
       <ModalContent>
@@ -38,7 +47,7 @@ export default function ModalComponent(props: ModalProps) {
           <Button variant="ghost" onClick={onClose} mr={3}>
             Close
           </Button>
-          <Button colorScheme="blue" onClick={handleOnSubmit}>
+          <Button colorScheme={"green"} onClick={handleOnSubmit}>
             {titleButton}
           </Button>
         </ModalFooter>

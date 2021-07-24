@@ -1,23 +1,25 @@
 import {
   Avatar,
   Box,
+  Center,
   Flex,
   Heading,
   HStack,
   List,
   ListItem,
+  Spinner,
   Text,
   useColorModeValue,
-  VStack,
 } from "@chakra-ui/react";
 import * as React from "react";
 export interface IBoxInfoProps {
   titleBox: string;
+  room: any;
+  disabled: boolean;
 }
 
 export default function BoxInfo(props: IBoxInfoProps) {
-  const { titleBox } = props;
-  const roomReducer = JSON.parse(localStorage.getItem("currentRoom"));
+  const { titleBox, room, disabled } = props;
 
   return (
     <Box
@@ -28,60 +30,64 @@ export default function BoxInfo(props: IBoxInfoProps) {
       boxShadow={"lg"}
       p={["1", "2", "3", "3"]}
     >
-      <Heading fontSize={["sm", "md", "md", "xl"]}>{titleBox}</Heading>
-      <Box py={4} px={12}>
-        <HStack justifyContent="center">
-          <Text fontSize={["sm", "md", "md", "xl"]} color="gray.500">
-            Total
-          </Text>
-          <Text
-            fontSize={["sm", "md", "3xl"]}
-            fontWeight={["500", "500", "500", "900"]}
+      {disabled ? (
+        <Center mt={8} h={"90%"}>
+          <Spinner
+            thickness="4px"
+            speed="0.65s"
+            emptyColor="gray.200"
+            color="teal.500"
+            size="xl"
+          />
+        </Center>
+      ) : (
+        <>
+          <Heading fontSize={["sm", "md", "md", "xl"]}>{titleBox}</Heading>
+          <Box py={4} px={12}>
+            <HStack justifyContent="center">
+              <Text fontSize={["sm", "md", "md", "xl"]} color="gray.500">
+                Total
+              </Text>
+              <Text
+                fontSize={["sm", "md", "3xl"]}
+                fontWeight={["500", "500", "500", "900"]}
+              >
+                {room.members.length}
+              </Text>
+            </HStack>
+          </Box>
+          <List
+            spacing={3}
+            textAlign="start"
+            style={{ overflow: "auto" }}
+            maxH={"49vh"}
           >
-            {/* {roomReducer.members.length} */}1
-          </Text>
-        </HStack>
-      </Box>
-      <List
-        spacing={3}
-        textAlign="start"
-        style={{ overflow: "auto" }}
-        maxH={"50vh"}
-      >
-        {/* {roomReducer.members.map((item: any, index: any) => (
-          <ListItem minW={"200px"} key={index}>
-            <Flex align={"center"}>
-              <Avatar
-                size={"sm"}
-                src={item.avatar}
-                alt={"Author"}
-                css={{
-                  border: "2px solid white",
-                }}
-              />
-              <Box as="a" color="teal.400" href="#" fontWeight="bold" ml={3}>
-                {item.fullname}
-              </Box>
-            </Flex>
-          </ListItem>
-        ))} */}
-        <ListItem minW={"200px"}>
-          <Flex align={"center"}>
-            <Avatar
-              size={"sm"}
-              // src={item.avatar}
-              alt={"Author"}
-              css={{
-                border: "2px solid white",
-              }}
-            />
-            <Box as="a" color="teal.400" href="#" fontWeight="bold" ml={3}>
-              {/* {item.fullname} */}
-              name
-            </Box>
-          </Flex>
-        </ListItem>
-      </List>
+            {room.members.map((item: any, index: any) => (
+              <ListItem minW={"200px"} key={index}>
+                <Flex align={"center"}>
+                  <Avatar
+                    size={"sm"}
+                    src={item.avatar}
+                    alt={"Author"}
+                    css={{
+                      border: "2px solid white",
+                    }}
+                  />
+                  <Box
+                    as="a"
+                    color="teal.400"
+                    href="#"
+                    fontWeight="bold"
+                    ml={3}
+                  >
+                    {item.fullname}
+                  </Box>
+                </Flex>
+              </ListItem>
+            ))}
+          </List>
+        </>
+      )}
     </Box>
   );
 }
