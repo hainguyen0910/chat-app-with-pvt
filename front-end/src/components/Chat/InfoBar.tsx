@@ -11,19 +11,20 @@ import * as React from "react";
 import { RiMastodonLine } from "react-icons/ri";
 import { BsCameraVideoFill } from "react-icons/bs";
 
-export interface IInfoBarProps {}
+export interface IInfoBarProps {
+  roomName: string;
+}
 
 export default function InfoBar(props: IInfoBarProps) {
-  const roomReducer = JSON.parse(localStorage.getItem("currentRoom") || "{}");
-
+  const { roomName } = props;
   return (
     <Stack>
       <Flex align="center" justify="space-between">
         <Flex align="center">
           <Icon as={RiMastodonLine} color="green.500" />
           <Text fontSize="2xl" fontWeight="900" ml={3}>
-            {/* {roomReducer.name} */}
-            Room name
+            {roomName}
+            {/* Room name */}
           </Text>
         </Flex>
         <Icon

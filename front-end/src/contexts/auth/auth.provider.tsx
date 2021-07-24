@@ -3,6 +3,7 @@ import { AuthContext } from "./auth.context";
 import authApi from "api/auth";
 import { history } from "App";
 import swal from "sweetalert";
+import { UserContext } from "contexts/user/user.context";
 
 export interface IAuthProviderProps {
   children: JSX.Element;
@@ -22,22 +23,29 @@ export default function AuthProvider(props: IAuthProviderProps) {
   const { children } = props;
   const [authReducer, setAuthReducer] = React.useState(initialState);
 
+  const userContext = React.useContext(UserContext);
+  const { setUser }: any = userContext;
+
   const login = async (username: string, password: string) => {
     await authApi
       .login({ username, password })
       .then((res) => {
         const { data } = res;
         const auth: any = {
+          token: data.token,
+        };
+        const user: any = {
           avatar: data.avatar,
           username: data.username,
           fullname: data.fullname,
-          token: data.token,
           birthday: data.birthday,
           createAt: data.createAt,
           sex: data.sex,
         };
         setAuthReducer(auth);
+        setUser(user);
         localStorage.setItem("auth", JSON.stringify(auth));
+        localStorage.setItem("user", JSON.stringify(data));
         history.push("/");
       })
       .catch((error) => {

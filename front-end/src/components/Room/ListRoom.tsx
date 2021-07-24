@@ -1,21 +1,76 @@
 import {
   Box,
+  Center,
   IconButton,
   Input,
   InputGroup,
   InputLeftElement,
   List,
+  Spinner,
   Tooltip,
   useColorModeValue,
+  useDisclosure,
 } from "@chakra-ui/react";
+import ModalComponent from "components/Modal/Modal";
+import { RoomContext } from "contexts/room/room.context";
 import * as React from "react";
 import { BiSearch } from "react-icons/bi";
+import { GiExitDoor } from "react-icons/gi";
 import { MdGroupAdd } from "react-icons/md";
 import Room from "./Room";
 
-export interface IListRoomProps {}
+interface IListRoomProps {
+  disabled: boolean;
+  setDisabled: (disabled: boolean) => void;
+}
+
+interface RoomContextInterface {
+  roomReducer: object;
+  setRoomReducer: (state: any) => void;
+  joinRoom: (roomID: string) => void;
+  createRoom: (roomName: string) => void;
+  getAllRoom: () => void;
+  rooms: any;
+  setRooms: () => void;
+  leaveRoom: (roomId: string) => void;
+}
 
 export default function ListRoom(props: IListRoomProps) {
+  const roomContext: RoomContextInterface = React.useContext(RoomContext);
+  const {
+    roomReducer,
+    setRoomReducer,
+    joinRoom,
+    createRoom,
+    rooms,
+    leaveRoom,
+  } = roomContext;
+  const { disabled, setDisabled } = props;
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [isJoin, setIsJoin] = React.useState(false);
+  const [inputValue, setInputValue] = React.useState("");
+
+  const onChangeInput = (value: string) => {
+    if (isJoin) {
+      setInputValue(value.replace(/\s+/g, ""));
+    } else {
+      setInputValue(value);
+    }
+  };
+
+  const handleOnSubmit = (value: string, isJoin: boolean) => {
+    if (value !== "") {
+      if (isJoin) {
+        joinRoom(value);
+      } else {
+        createRoom(value);
+      }
+      setInputValue("");
+      onClose();
+    }
+  };
+
   return (
     <Box
       py={4}
@@ -33,7 +88,7 @@ export default function ListRoom(props: IListRoomProps) {
         />
         <Input type="tel" placeholder="Search room" />
         <Tooltip
-          label="Add new chat"
+          label="Create new room"
           aria-label="New chat tooltip"
           placement="top"
         >
@@ -42,28 +97,84 @@ export default function ListRoom(props: IListRoomProps) {
             aria-label="New chat"
             icon={<MdGroupAdd />}
             ml={3}
+            onClick={() => {
+              setIsJoin(false);
+              onOpen();
+            }}
+          />
+        </Tooltip>
+
+        <Tooltip
+          label="Join new room"
+          aria-label="New chat tooltip"
+          placement="top"
+        >
+          <IconButton
+            colorScheme="teal"
+            aria-label="New chat"
+            icon={<GiExitDoor />}
+            ml={3}
+            onClick={() => {
+              setIsJoin(true);
+              onOpen();
+            }}
           />
         </Tooltip>
       </InputGroup>
+      {rooms?.length > 0 ? (
+        <List
+          spacing={3}
+          textAlign="start"
+          style={{ overflow: "auto" }}
+          maxH={"90%"}
+          mt={"20px"}
+        >
+          {rooms.map((item: any, index: number) => (
+            <Room
+              room={item}
+              key={index}
+              disabled={disabled}
+              onClick={() => {
+                setDisabled(true);
+                setRoomReducer(item);
+              }}
+              active={roomReducer?._id === item?._id}
+              leaveRoom={leaveRoom}
+            />
+          ))}
+        </List>
+      ) : (
+        <Center mt={8} h={"90%"}>
+          <Spinner
+            thickness="4px"
+            speed="0.65s"
+            emptyColor="gray.200"
+            color="teal.500"
+            size="xl"
+          />
+        </Center>
+      )}
 
-      <List
-        spacing={3}
-        textAlign="start"
-        style={{ overflow: "auto" }}
-        maxH={"90%"}
-        mt={"20px"}
+      <ModalComponent
+        isOpen={isOpen}
+        onClose={() => {
+          setInputValue("");
+          onClose();
+        }}
+        modalTitle={isJoin ? "Join room 😈" : "Create room 😈"}
+        titleButton={isJoin ? "Join" : "Create"}
+        handleOnSubmit={() => handleOnSubmit(inputValue, isJoin)}
       >
-        <Room />
-        <Room />
-        <Room />
-        <Room />
-        <Room />
-        <Room />
-        <Room />
-        <Room />
-        <Room />
-        <Room />
-      </List>
+        <Input
+          type="text"
+          placeholder={isJoin ? "Room ID" : "Room name"}
+          value={inputValue}
+          onChange={(e) => onChangeInput(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") handleOnSubmit(inputValue, isJoin);
+          }}
+        />
+      </ModalComponent>
     </Box>
   );
 }

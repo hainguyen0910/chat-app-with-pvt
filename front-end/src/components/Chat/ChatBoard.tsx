@@ -1,42 +1,46 @@
 /* eslint-disable no-restricted-globals */
-import { Flex, useColorModeValue } from "@chakra-ui/react";
+import { Center, Flex, Spinner, useColorModeValue } from "@chakra-ui/react";
 import Messages from "components/Message/Messages";
 import * as React from "react";
 import io from "socket.io-client";
 import InfoBar from "./InfoBar";
 import InputComponent from "./Input";
-export interface IChatBoardProps {}
+export interface IChatBoardProps {
+  room: any;
+  disabled: boolean;
+}
 
 let socket: any;
 
 export default function ChatBoard(props: IChatBoardProps) {
-  // const { location: path } = props;
-  // const roomId = location.pathname.split("/")[2];
+  const { room, disabled } = props;
+  console.log(disabled);
 
   const [messages, setMessages] = React.useState([]);
 
-  // React.useEffect(() => {
-  //   const ENDPOINT = "http://localhost:8080";
-  //   const token = JSON.parse(localStorage.getItem("auth") || "{}")?.token;
-  //   socket = io(ENDPOINT, { query: { token } });
-  //   socket.emit("join", roomId);
-  // }, []);
+  React.useEffect(() => {
+    const ENDPOINT = "http://192.168.1.16:8080/";
+    const token = JSON.parse(localStorage.getItem("auth") || "{}")?.token;
+    socket = io(ENDPOINT, { query: { token } });
+    socket.emit("join", room.roomId);
+  }, [room.roomId]);
 
-  // React.useEffect(() => {
-  //   socket.emit("sendAllMessages", roomId);
+  React.useEffect(() => {
+    socket.emit("sendAllMessages", room.roomId);
 
-  //   socket.on("receiveAllMessages", (data: any) => {
-  //     setMessages(data);
-  //     console.log(data);
-  //   });
-  // }, []);
+    socket.on("receiveAllMessages", (data: any) => {
+      setMessages(data);
+    });
+  }, [room.roomId]);
 
   const sendMessage = (message: any) => {
-    // socket.emit("sendNewMessage", { roomId, message });
-    // socket.on("receiveNewMessage", (data: any) => {
-    //   const result = [...messages, data] as any;
-    //   setMessages(result);
-    // });
+    if (message !== "") {
+      socket.emit("sendNewMessage", { roomId: room.roomId, message });
+      socket.on("receiveNewMessage", (data: any) => {
+        const result = [...messages, data] as any;
+        setMessages(result);
+      });
+    }
   };
 
   return (
@@ -54,11 +58,25 @@ export default function ChatBoard(props: IChatBoardProps) {
       h={"100%"}
       spacing={4}
     >
-      <Flex flexDir={"column"}>
-        <InfoBar />
-        <Messages messages={messages} />
-      </Flex>
-      <InputComponent sendMessage={sendMessage} />
+      {disabled ? (
+        <Center mt={8} h={"90%"}>
+          <Spinner
+            thickness="4px"
+            speed="0.65s"
+            emptyColor="gray.200"
+            color="teal.500"
+            size="xl"
+          />
+        </Center>
+      ) : (
+        <>
+          <Flex flexDir={"column"}>
+            <InfoBar roomName={room?.name} />
+            <Messages messages={messages} />
+          </Flex>
+          <InputComponent sendMessage={sendMessage} />
+        </>
+      )}
     </Flex>
   );
 }

@@ -1,4 +1,10 @@
-import { Box, Flex, useColorModeValue } from "@chakra-ui/react";
+import {
+  Box,
+  Center,
+  Flex,
+  Spinner,
+  useColorModeValue,
+} from "@chakra-ui/react";
 import { history } from "App";
 import BoxInfo from "components/Box/BoxInfo";
 import BoxUsers from "components/Box/BoxUsers";
@@ -8,17 +14,7 @@ import ListRoom from "components/Room/ListRoom";
 import Welcome from "components/Welcome/Welcome";
 import { AppContext } from "contexts/app/app.context";
 import { RoomContext } from "contexts/room/room.context";
-import React, { useContext } from "react";
-
-interface loadingInterface {
-  isLoading: any;
-  setIsLoading: {
-    on: () => void;
-    off: () => void;
-    toggle: () => void;
-  };
-  // setIsLoading: any;
-}
+import React, { useEffect, useState } from "react";
 
 interface RoomContextInterface {
   roomReducer: object;
@@ -26,52 +22,35 @@ interface RoomContextInterface {
   joinRoom: (roomID: string) => void;
   createRoom: (roomName: string) => void;
   getAllRoom: () => void;
+  rooms: any;
+  setRooms: () => void;
+}
+
+interface AppContextInterface {
+  disabled: boolean;
+  setDisabled: (disabled: boolean) => void;
 }
 
 interface RoomProps {}
-
-const avatars = [
-  {
-    name: "Ryan Florence",
-    url: "https://bit.ly/ryan-florence",
-  },
-  {
-    name: "Segun Adebayo",
-    url: "https://bit.ly/prosper-baba",
-  },
-  {
-    name: "Kent Dodds",
-    url: "https://bit.ly/kent-c-dodds",
-  },
-  {
-    name: "Prosper Otemuyiwa",
-    url: "https://bit.ly/prosper-baba",
-  },
-  {
-    name: "Christian Nwamba",
-    url: "https://bit.ly/code-beast",
-  },
-];
 
 export default function Home(props: RoomProps) {
   if (!JSON.parse(localStorage.getItem("auth") || "{}")?.token) {
     history.push("/login");
   }
-  const loading: loadingInterface = useContext(AppContext);
-  console.log(loading);
 
   const roomContext: RoomContextInterface = React.useContext(RoomContext);
-  const { roomReducer } = roomContext;
+  const { roomReducer, getAllRoom } = roomContext;
 
-  const { isLoading, setIsLoading } = loading;
+  const appContext: AppContextInterface = React.useContext(AppContext);
+  const { disabled, setDisabled } = appContext;
 
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-  };
+  useEffect(() => {
+    getAllRoom();
+  }, [roomReducer]);
+
+  useEffect(() => {
+    setDisabled(false);
+  }, [roomReducer]);
 
   return (
     <Box
@@ -83,31 +62,44 @@ export default function Home(props: RoomProps) {
       <Flex color="black.50">
         <Box
           // w={["0", "0", "20%", "20%"]}
-          minW={["0", "0", "20vw", "20vw"]}
+          w={["0", "0", "20rem", "20rem"]}
           p={["1", "2", "3", "3"]}
           h={"90vh"}
           display={["none", "none", "block", "block"]}
         >
-          <ListRoom />
+          <ListRoom disabled={disabled} setDisabled={setDisabled} />
         </Box>
-        {/* <Box
-          w={["100%", "100%", "100%", "60%"]}
-          h={"90vh"}
-          p={["1", "2", "3", "3"]}
-        >
-          <ChatBoard />
-        </Box>
+        {roomReducer?.roomId ? (
+          <>
+            <Box
+              w={["100%", "100%", "100%", "60%"]}
+              h={"90vh"}
+              p={["1", "2", "3", "3"]}
+            >
+              <ChatBoard room={roomReducer} disabled={disabled} />
+            </Box>
 
-        <Box
-          w={["0", "0", "0", "20%"]}
-          maxH={"100%"}
-          display={["none", "none", "none", "block"]}
-          p={["1", "2", "3", "3"]}
-        >
-          <BoxInfo titleBox="Room info" />
-          <BoxUsers titleBox="Users in room" />
-        </Box> */}
-        <Welcome />
+            <Box
+              w={["0", "0", "0", "20%"]}
+              maxH={"100%"}
+              display={["none", "none", "none", "block"]}
+              p={["1", "2", "3", "3"]}
+            >
+              <BoxInfo
+                titleBox="Room info"
+                room={roomReducer}
+                disabled={disabled}
+              />
+              <BoxUsers
+                titleBox="Member"
+                room={roomReducer}
+                disabled={disabled}
+              />
+            </Box>
+          </>
+        ) : (
+          <Welcome />
+        )}
       </Flex>
     </Box>
   );

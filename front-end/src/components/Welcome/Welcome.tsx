@@ -2,16 +2,15 @@ import {
   Box,
   Button,
   Container,
+  createIcon,
   Heading,
   Icon,
   Stack,
-  useColorModeValue,
   Text,
-  createIcon,
-  IconButton,
+  useColorModeValue,
 } from "@chakra-ui/react";
-import { GrGithub } from "react-icons/gr";
 import * as React from "react";
+import { GrGithub } from "react-icons/gr";
 
 export interface IWelcomeProps {}
 
@@ -77,11 +76,11 @@ export default function Welcome(props: IWelcomeProps) {
               fontSize={"lg"}
               fontFamily={"Caveat"}
               position={"absolute"}
-              right={"-150px"}
+              right={"-110px"}
               top={"35px"}
-              transform={"rotate(30deg)"}
+              transform={"rotate(40deg)"}
             >
-              Follow and star our
+              Follow us
             </Text>
           </Box>
         </Stack>

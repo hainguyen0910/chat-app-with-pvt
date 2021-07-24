@@ -19,7 +19,6 @@ export default function Messages(props: IMessagesProps) {
   }, [messages]);
 
   const auth = JSON.parse(localStorage.getItem("auth") || "{}");
-  console.log(messages.length === 0);
 
   if (!(messages.length > 0)) {
     return (
@@ -39,10 +38,9 @@ export default function Messages(props: IMessagesProps) {
       borderColor="gray.200"
       px={3}
       py={1}
-      maxH={"60vh"}
-      style={{ overflow: "auto" }}
+      h={"60vh"}
+      style={{ overflow: "scroll" }}
       borderRadius={6}
-      ref={messagesEndRef}
     >
       {messages.map((item: any, index: any) => (
         <Message
@@ -50,6 +48,7 @@ export default function Messages(props: IMessagesProps) {
           message={item}
         />
       ))}
+      <div className="scroll-bottom" ref={messagesEndRef} />
     </Box>
   );
 }
