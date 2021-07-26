@@ -159,22 +159,24 @@ export default function CardComponent(props: CardProps) {
           </Button>
         )}
 
-        <Button
-          w={"full"}
-          value="Upload"
-          mt={8}
-          colorScheme={"green"}
-          color={"white"}
-          rounded={"md"}
-          _hover={{
-            transform: "translateY(-2px)",
-            boxShadow: "lg",
-          }}
-          type="button"
-          onClick={() => fileInputRef.current.click()}
-        >
-          {typeButton}
-        </Button>
+        {typeButton && (
+          <Button
+            w={"full"}
+            value="Upload"
+            mt={8}
+            colorScheme={"green"}
+            color={"white"}
+            rounded={"md"}
+            _hover={{
+              transform: "translateY(-2px)",
+              boxShadow: "lg",
+            }}
+            type="button"
+            onClick={() => fileInputRef.current.click()}
+          >
+            {typeButton}
+          </Button>
+        )}
       </Box>
     </Box>
   );

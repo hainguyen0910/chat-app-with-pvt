@@ -48,10 +48,6 @@ export default function Home(props: RoomProps) {
     getAllRoom();
   }, [roomReducer]);
 
-  useEffect(() => {
-    setDisabled(false);
-  }, [roomReducer]);
-
   return (
     <Box
       bg={useColorModeValue("gray.50", "gray.900")}
@@ -76,7 +72,11 @@ export default function Home(props: RoomProps) {
               h={"90vh"}
               p={["1", "2", "3", "3"]}
             >
-              <ChatBoard room={roomReducer} disabled={disabled} />
+              <ChatBoard
+                room={roomReducer}
+                disabled={disabled}
+                setDisabled={setDisabled}
+              />
             </Box>
 
             <Box

@@ -18,9 +18,9 @@ export default function Messages(props: IMessagesProps) {
     scrollToBottom();
   }, [messages]);
 
-  const auth = JSON.parse(localStorage.getItem("auth") || "{}");
+  const user = JSON.parse(localStorage.getItem("user") || "{}");
 
-  if (!(messages.length > 0)) {
+  if (messages.length === 0) {
     return (
       <Center mt={3}>
         <Alert status="info">
@@ -44,7 +44,7 @@ export default function Messages(props: IMessagesProps) {
     >
       {messages.map((item: any, index: any) => (
         <Message
-          isCurrentUser={auth.username === item.sender.username}
+          isCurrentUser={user.username === item.sender.username}
           message={item}
         />
       ))}

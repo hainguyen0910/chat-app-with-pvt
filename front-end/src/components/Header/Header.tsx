@@ -3,10 +3,18 @@ import {
   Box,
   Button,
   Center,
+  Drawer,
+  DrawerBody,
+  DrawerCloseButton,
+  DrawerContent,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerOverlay,
   Flex,
   FormControl,
   FormLabel,
   Icon,
+  IconButton,
   Input,
   InputGroup,
   InputRightElement,
@@ -28,21 +36,13 @@ import ModalComponent from "components/Modal/Modal";
 import CardProfile from "components/CardProfile/CardProfile";
 import { AuthContext } from "contexts/auth/auth.context";
 import * as React from "react";
-import { BiArrowBack } from "react-icons/bi";
+import { FaListUl } from "react-icons/fa";
 import { isMobile } from "react-device-detect";
 import { UserContext } from "contexts/user/user.context";
+import ListRoom from "components/Room/ListRoom";
+import { AppContext } from "contexts/app/app.context";
 
 interface IHeaderProps {}
-
-interface RoomContextInterface {
-  updateProfile: (data: any) => void;
-  changePassword: (
-    { password, newPassword }: any,
-    onClose: any,
-    clearInputPassword: any
-  ) => void;
-  authReducer: any;
-}
 
 interface UserContextInterface {
   user: any;
@@ -50,7 +50,14 @@ interface UserContextInterface {
   updateProfile: any;
 }
 
+interface AppContextInterface {
+  disabled: boolean;
+  setDisabled: (disabled: boolean) => void;
+}
+
 export default function Header(props: IHeaderProps) {
+  const toast = useToast();
+
   const auth = React.useContext(AuthContext);
   const { authReducer, logout }: any = auth;
 
@@ -58,7 +65,8 @@ export default function Header(props: IHeaderProps) {
   const { user, changePassword, updateProfile } = userContext;
   const [userMobile, setUserMobile] = React.useState(user);
 
-  const toast = useToast();
+  const appContext: AppContextInterface = React.useContext(AppContext);
+  const { disabled, setDisabled } = appContext;
 
   const [fullname, setFullname] = React.useState(user?.fullname);
   const [sex, setSex] = React.useState(user?.sex);
@@ -67,6 +75,7 @@ export default function Header(props: IHeaderProps) {
   const [fileUpload, setFileUpload] = React.useState(user?.avatar);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [isOpenMenu, setIsOpenMenu] = React.useState(false);
   const [isChangePassword, setIsChangePassword] = React.useState(false);
   const [oldPassword, setOldPassword] = React.useState("");
   const [newPassword, setNewPassword] = React.useState("");
@@ -156,15 +165,28 @@ export default function Header(props: IHeaderProps) {
       h={"10vh"}
       bg={useColorModeValue("gray.300", "gray.900")}
     >
-      <Icon
-        as={BiArrowBack}
-        color="gray.500"
-        w={0}
-        h={0}
+      <IconButton
+        icon={<FaListUl />}
+        aria-label="Menu"
+        color="teal"
+        bg="transparent"
         ml={3}
+        size="lg"
         style={{ cursor: "pointer" }}
-        onClick={() => history.goBack()}
+        onClick={() => setIsOpenMenu(true)}
+        opacity={["1", "1", "0", "0"]}
       />
+      <Drawer
+        isOpen={isOpenMenu}
+        placement="left"
+        onClose={() => setIsOpenMenu(false)}
+        // finalFocusRef={btnRef}
+      >
+        <DrawerOverlay />
+        <DrawerContent>
+          <ListRoom disabled={disabled} setDisabled={setDisabled} />
+        </DrawerContent>
+      </Drawer>
       <Text
         fontSize={["1xl", "2xl", "2xl", "5xl"]}
         fontWeight="900"

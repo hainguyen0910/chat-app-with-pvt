@@ -10,7 +10,10 @@ import {
   Spinner,
   Text,
   useColorModeValue,
+  useDisclosure,
 } from "@chakra-ui/react";
+import ModalComponent from "components/Modal/Modal";
+import CardProfile from "components/CardProfile/CardProfile";
 import * as React from "react";
 export interface IBoxInfoProps {
   titleBox: string;
@@ -20,6 +23,8 @@ export interface IBoxInfoProps {
 
 export default function BoxInfo(props: IBoxInfoProps) {
   const { titleBox, room, disabled } = props;
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [userItem, setUserItem] = React.useState(null as any);
 
   return (
     <Box
@@ -63,7 +68,14 @@ export default function BoxInfo(props: IBoxInfoProps) {
             maxH={"49vh"}
           >
             {room.members.map((item: any, index: any) => (
-              <ListItem minW={"200px"} key={index}>
+              <ListItem
+                minW={"200px"}
+                key={index}
+                onClick={() => {
+                  setUserItem(item);
+                  onOpen();
+                }}
+              >
                 <Flex align={"center"}>
                   <Avatar
                     size={"sm"}

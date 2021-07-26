@@ -31,7 +31,7 @@ interface RoomContextInterface {
   createRoom: (roomName: string) => void;
   getAllRoom: () => void;
   rooms: any;
-  setRooms: () => void;
+  setRooms: (state: any) => void;
   leaveRoom: (roomId: string) => void;
 }
 
@@ -43,13 +43,16 @@ export default function ListRoom(props: IListRoomProps) {
     joinRoom,
     createRoom,
     rooms,
+    setRooms,
     leaveRoom,
+    getAllRoom,
   } = roomContext;
   const { disabled, setDisabled } = props;
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [isJoin, setIsJoin] = React.useState(false);
   const [inputValue, setInputValue] = React.useState("");
+  const [searchString, setSearchString] = React.useState("");
 
   const onChangeInput = (value: string) => {
     if (isJoin) {
@@ -71,6 +74,22 @@ export default function ListRoom(props: IListRoomProps) {
     }
   };
 
+  const handleSearch = (str: string) => {
+    setSearchString(str);
+    let newArr: any[] = [];
+    rooms.filter((item: any, index: number) => {
+      if (item.name.includes(str)) {
+        console.log(item);
+        newArr.push(item);
+      }
+    });
+    if (str !== "") {
+      setRooms(newArr);
+    } else {
+      getAllRoom();
+    }
+  };
+
   return (
     <Box
       py={4}
@@ -86,7 +105,12 @@ export default function ListRoom(props: IListRoomProps) {
           pointerEvents="none"
           children={<BiSearch color="gray.300" />}
         />
-        <Input type="tel" placeholder="Search room" />
+        <Input
+          type="tel"
+          placeholder="Search"
+          value={searchString}
+          onChange={(e) => handleSearch(e.target.value)}
+        />
         <Tooltip
           label="Create new room"
           aria-label="New chat tooltip"
