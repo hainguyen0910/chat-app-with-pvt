@@ -2,6 +2,7 @@ import styled from "@emotion/styled";
 import * as React from "react";
 import Picker, { SKIN_TONE_MEDIUM_DARK } from "emoji-picker-react";
 import { Box } from "@chakra-ui/react";
+import { isMobile } from "react-device-detect";
 
 export interface IEmojiProps {
   isShowEmoji: boolean;
@@ -25,7 +26,7 @@ export default function Emoji(props: IEmojiProps) {
     setCursorPosition(start.length + emoji.length);
   };
   return (
-    <EmojiContainer isShowEmoji={isShowEmoji}>
+    <EmojiContainer isShowEmoji={isShowEmoji} isMobile={isMobile}>
       <Picker onEmojiClick={onEmojiClick} disableSearchBar />
     </EmojiContainer>
   );
@@ -36,7 +37,7 @@ const EmojiContainer = styled(Box)`
     position: absolute;
     top: -20rem;
     bottom: 0;
-    right: -5rem;
+    right: ${(props) => (props.isMobile ? "0" : "-5rem")};
   }
 
   display: ${(props) => (props.isShowEmoji ? "block" : "none")};
