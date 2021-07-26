@@ -8,13 +8,13 @@ import InputComponent from "./Input";
 export interface IChatBoardProps {
   room: any;
   disabled: boolean;
+  setDisabled: any;
 }
 
 let socket: any;
 
 export default function ChatBoard(props: IChatBoardProps) {
-  const { room, disabled } = props;
-  console.log(disabled);
+  const { room, disabled, setDisabled } = props;
 
   const [messages, setMessages] = React.useState([]);
 
@@ -26,18 +26,27 @@ export default function ChatBoard(props: IChatBoardProps) {
   }, [room.roomId]);
 
   React.useEffect(() => {
+    setDisabled(true);
     socket.emit("sendAllMessages", room.roomId);
 
     socket.on("receiveAllMessages", (data: any) => {
       setMessages(data);
+      setDisabled(false);
     });
   }, [room.roomId]);
 
   const sendMessage = (message: any) => {
+    console.log("messages outside", messages);
+
     if (message !== "") {
       socket.emit("sendNewMessage", { roomId: room.roomId, message });
       socket.on("receiveNewMessage", (data: any) => {
+        console.log("messages", messages);
+
         const result = [...messages, data] as any;
+        console.log("result", result);
+        console.log("data", data);
+
         setMessages(result);
       });
     }
