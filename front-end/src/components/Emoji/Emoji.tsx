@@ -1,7 +1,7 @@
-import styled from "@emotion/styled";
-import * as React from "react";
-import Picker, { SKIN_TONE_MEDIUM_DARK } from "emoji-picker-react";
 import { Box } from "@chakra-ui/react";
+import styled from "@emotion/styled";
+import Picker from "emoji-picker-react";
+import * as React from "react";
 import { isMobile } from "react-device-detect";
 
 export interface IEmojiProps {
